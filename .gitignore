@@ -1,0 +1,88 @@
+# ==============================================================================
+# Python Artifacts & Caches
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==============================================================================
+# Virtual Environments
+# ==============================================================================
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ==============================================================================
+# Node.js & Frontend Build Outputs
+# ==============================================================================
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ==============================================================================
+# Runtime Data, User Uploads & Local SQLite DB
+# ==============================================================================
+uploads/*
+!uploads/.gitkeep
+data/scans.db
+data/scans.db-journal
+*.log
+
+# ==============================================================================
+# Environment Variables & Secrets
+# ==============================================================================
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ==============================================================================
+# Model Artifacts Exceeding GitHub 100MB File Limit
+# (Primary production model plant_disease_model_final.keras is 81MB and tracked)
+# ==============================================================================
+models/agro_disease_model.h5
+
+# ==============================================================================
+# Operating System & IDE Files
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
