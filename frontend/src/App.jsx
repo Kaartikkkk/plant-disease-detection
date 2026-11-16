@@ -141,12 +141,24 @@ function App() {
   // ROUTE 2: Existing Diagnostic Application (/detect, /dataset, /analytics, etc.)
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col md:flex-row relative selection:bg-emerald-100 selection:text-emerald-900">
-      
-      {/* Background Ambience & Textures */}
-      <div className="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none z-0" />
-      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-ambient-blob-1 pointer-events-none z-0 opacity-40" />
-      <div className="fixed bottom-0 right-1/4 w-[600px] h-[600px] bg-ambient-blob-2 pointer-events-none z-0 opacity-30" />
-      <div className="fixed inset-0 bg-radial-glow pointer-events-none z-0" />
+
+      {/* Background Ambience: Soft Green Wave Gradients */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <svg className="absolute top-0 right-0 w-[55vw] max-w-[800px] h-[500px] opacity-65 pointer-events-none" viewBox="0 0 800 500" fill="none">
+          <path d="M350 0 C480 100, 460 280, 800 360 L800 0 Z" fill="url(#diagWave1)" />
+          <path d="M180 0 C360 140, 450 320, 800 440 L800 0 Z" fill="url(#diagWave2)" opacity="0.55" />
+          <defs>
+            <linearGradient id="diagWave1" x1="350" y1="0" x2="800" y2="360" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#A7F3D0" stopOpacity="0.45" />
+              <stop offset="1" stopColor="#ECFDF5" stopOpacity="0.05" />
+            </linearGradient>
+            <linearGradient id="diagWave2" x1="180" y1="0" x2="800" y2="440" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#D1FAE5" stopOpacity="0.4" />
+              <stop offset="1" stopColor="#F0FDF4" stopOpacity="0.02" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
 
       {/* Responsive Collapsible Sidebar */}
       <Sidebar
@@ -162,7 +174,7 @@ function App() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 z-10">
-        
+
         {/* Top App Header / Bar */}
         <header className="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-20 px-4 sm:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -204,7 +216,7 @@ function App() {
 
         {/* Content Canvas */}
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-7">
-          
+
           {/* Page Title & Description Header with Corner Foliage */}
           <div className="relative mb-6">
             <div className="flex items-center gap-3.5 relative z-10">
@@ -224,7 +236,9 @@ function App() {
                   <span className="text-[#15803d] relative inline-block whitespace-nowrap">
                     Leaf Diagnosis
                     <span className="absolute -bottom-1.5 left-0 w-full flex justify-center pointer-events-none select-none">
-                      <img src="/images/swoosh.png" alt="" className="w-full h-auto min-h-[4px] max-h-[8px] object-contain" />
+                      <svg viewBox="0 0 240 14" fill="none" className="w-full h-auto text-[#16a34a]" preserveAspectRatio="none">
+                        <path d="M 4 8 C 55 14, 160 14, 236 6 C 160 11, 65 11, 4 8 Z" fill="currentColor" />
+                      </svg>
                     </span>
                   </span>
                 </h1>
@@ -235,8 +249,12 @@ function App() {
             </div>
 
             {/* Decorative Top-Right Corner Foliage Graphic */}
-            <div className="absolute -top-6 -right-4 pointer-events-none select-none w-72 h-44 overflow-hidden z-0 hidden lg:block opacity-90">
-              <img src="/images/top_right_foliage.png" alt="" className="w-full h-full object-contain object-top-right" />
+            <div className="absolute -top-14 -right-2 pointer-events-none select-none w-64 h-40 overflow-hidden z-0 hidden lg:block">
+              <img
+                src="/images/top_right_foliage.png"
+                alt=""
+                className="w-full h-full object-contain object-top-right drop-shadow-xs"
+              />
             </div>
           </div>
 

@@ -265,11 +265,9 @@ export const LandingPage = ({ onStartDetection, onExploreDataset }) => {
               <span className="text-[#15803d] italic font-serif font-bold relative inline-block whitespace-nowrap">
                 Protect Your Crops
                 <span className="absolute -bottom-2 sm:-bottom-2.5 right-1 w-[55%] flex justify-end pointer-events-none select-none">
-                  <img
-                    src="/images/swoosh.png"
-                    alt=""
-                    className="w-full h-auto min-h-[6px] max-h-[14px] object-contain"
-                  />
+                  <svg viewBox="0 0 250 14" fill="none" className="w-full h-auto text-[#16a34a]" preserveAspectRatio="none">
+                    <path d="M 4 8 C 65 14, 185 14, 246 6 C 185 11, 70 11, 4 8 Z" fill="currentColor" />
+                  </svg>
                 </span>
               </span>
             </h1>

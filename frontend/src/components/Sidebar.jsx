@@ -120,8 +120,8 @@ export const Sidebar = ({
         </nav>
       </div>
 
-      {/* Subtle Bottom Field Panorama Graphic in Sidebar */}
-      <div className="absolute inset-x-0 bottom-0 pointer-events-none select-none overflow-hidden h-36 z-0 opacity-70">
+      {/* High-Resolution Field Panorama Graphic in Sidebar Bottom */}
+      <div className="absolute inset-x-0 bottom-0 pointer-events-none select-none overflow-hidden h-44 z-0">
         <img
           src="/images/sidebar_bottom_bg.png"
           alt=""

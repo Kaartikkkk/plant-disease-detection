@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, X, AlertCircle, Loader2, Sprout, Search, ChevronDown, FileText
+  UploadCloud, Image, X, AlertCircle, Loader2, Leaf, Search,
+  ChevronDown, PenLine, Sliders, ArrowRight, Zap, Target,
+  Layers, ShieldCheck
 } from 'lucide-react';
 import { diseaseService } from '../services/diseaseService';
 import DiagnosticReport from './DiagnosticReport';
@@ -31,7 +33,6 @@ export const DiseaseScanner = ({
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
 
   // Sync initial props
   useEffect(() => {
@@ -103,7 +104,6 @@ export const DiseaseScanner = ({
   };
 
   const triggerBrowse = () => fileInputRef.current?.click();
-  const triggerCamera = () => cameraInputRef.current?.click();
 
   const removePhoto = () => {
     setImageFile(null);
@@ -169,13 +169,13 @@ export const DiseaseScanner = ({
         <div className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Left Column: Image Upload Box */}
-            <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xs relative overflow-hidden flex flex-col justify-between">
+            {/* Left Column: Upload Plant Specimen Box */}
+            <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xs flex flex-col justify-between">
               
               {/* Header */}
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-5">
                 <div className="w-9 h-9 rounded-xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center shrink-0">
-                  <Upload size={18} className="stroke-[2.2]" />
+                  <UploadCloud size={19} className="stroke-[2.2]" />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 font-heading tracking-tight">
@@ -187,21 +187,13 @@ export const DiseaseScanner = ({
                 </div>
               </div>
 
-              {/* Hidden File Inputs */}
+              {/* Hidden File Input */}
               <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="hidden"
                 accept="image/jpeg,image/png,image/webp"
-              />
-              <input
-                type="file"
-                ref={cameraInputRef}
-                onChange={handleFileChange}
-                className="hidden"
-                accept="image/*"
-                capture="environment"
               />
 
               {/* Drag & Drop Area */}
@@ -211,27 +203,43 @@ export const DiseaseScanner = ({
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
                   onClick={triggerBrowse}
-                  className={`flex-1 flex flex-col items-center justify-center min-h-[220px] border-2 border-dashed rounded-2xl cursor-pointer p-8 transition-all relative overflow-hidden group ${
+                  className={`flex-1 flex flex-col items-center justify-center min-h-[240px] border-2 border-dashed rounded-2xl cursor-pointer p-8 sm:p-10 transition-all text-center relative overflow-hidden group ${
                     dragOver
-                      ? 'border-emerald-500 bg-[#ebf7ee]/60 shadow-xs'
+                      ? 'border-emerald-500 bg-[#ebf7ee]/70 shadow-xs'
                       : 'border-[#86efac] bg-[#fbfdfb] hover:bg-[#f4fbf6]'
                   }`}
                 >
                   <div className="w-14 h-14 rounded-2xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center mb-3 shadow-2xs group-hover:scale-105 transition-transform">
-                    <Upload size={24} className="stroke-[2.2]" />
+                    <UploadCloud size={26} strokeWidth={2.2} />
                   </div>
 
-                  <h4 className="text-sm font-bold text-slate-800 mb-0.5">
+                  <h4 className="text-sm sm:text-base font-bold text-slate-900 mb-0.5">
                     Drag &amp; drop your leaf image here
                   </h4>
-                  <p className="text-xs text-slate-500">
-                    or click to browse
+                  <p className="text-xs text-slate-500 mb-4">
+                    or click to browse from your device
                   </p>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      triggerBrowse();
+                    }}
+                    className="bg-[#168a42] hover:bg-[#15803d] text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-xs inline-flex items-center gap-2 cursor-pointer transition-all active:scale-95"
+                  >
+                    <Image size={15} strokeWidth={2.2} />
+                    <span>Choose Image</span>
+                  </button>
+
+                  <span className="text-[11px] text-slate-400 mt-4 block">
+                    Supported formats: JPG, PNG | Max size: 10 MB
+                  </span>
                 </div>
               ) : (
                 /* Selected Image Preview */
                 <div className="flex-1 flex flex-col justify-center space-y-3">
-                  <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 max-h-[260px] flex items-center justify-center group shadow-xs">
+                  <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 min-h-[220px] max-h-[260px] flex items-center justify-center group shadow-xs">
                     <img
                       src={selectedImage}
                       alt="Selected leaf specimen"
@@ -281,9 +289,9 @@ export const DiseaseScanner = ({
                   </div>
 
                   {imageFile && (
-                    <div className="flex items-center justify-between text-xs text-slate-600 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
+                    <div className="flex items-center justify-between text-xs text-slate-600 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200">
                       <span className="truncate font-mono max-w-[240px] text-slate-800 font-medium">{imageFile.name}</span>
-                      <span className="font-mono">{(imageFile.size / (1024 * 1024)).toFixed(2)} MB</span>
+                      <span className="font-mono text-slate-500">{(imageFile.size / (1024 * 1024)).toFixed(2)} MB</span>
                     </div>
                   )}
                 </div>
@@ -298,20 +306,20 @@ export const DiseaseScanner = ({
               )}
             </div>
 
-            {/* Right Column: Crop Context (Optional) */}
+            {/* Right Column: Analysis Settings */}
             <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xs flex flex-col justify-between">
               <div>
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-9 h-9 rounded-xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center shrink-0">
-                    <Sprout size={18} className="stroke-[2.2]" />
+                    <Sliders size={18} className="stroke-[2.2]" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-900 font-heading tracking-tight">
-                      Crop Context (Optional)
+                      Analysis Settings
                     </h3>
                     <p className="text-xs text-slate-500 mt-0.5">
-                      Provide additional context to improve prediction.
+                      Configure optional details for better prediction.
                     </p>
                   </div>
                 </div>
@@ -323,10 +331,13 @@ export const DiseaseScanner = ({
                       Crop Type
                     </label>
                     <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#16a34a]">
+                        <Leaf size={16} strokeWidth={2} />
+                      </div>
                       <select
                         value={cropType}
                         onChange={(e) => setCropType(e.target.value)}
-                        className="w-full text-xs sm:text-sm p-3.5 pr-10 border border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 bg-white text-slate-800 outline-none cursor-pointer shadow-2xs appearance-none font-medium"
+                        className="w-full text-xs sm:text-sm pl-10 pr-10 py-3.5 border border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 bg-white text-slate-800 outline-none cursor-pointer shadow-2xs appearance-none font-medium transition-all"
                       >
                         <option value="">-- Auto-Detect From Image --</option>
                         <option value="Apple">Apple</option>
@@ -344,7 +355,7 @@ export const DiseaseScanner = ({
                         <option value="Strawberry">Strawberry</option>
                         <option value="Tomato">Tomato</option>
                       </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none text-slate-500">
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
                         <ChevronDown size={16} />
                       </div>
                     </div>
@@ -354,13 +365,18 @@ export const DiseaseScanner = ({
                     <label className="block text-xs font-bold text-slate-800 mb-2">
                       Observed Symptoms (Optional)
                     </label>
-                    <input
-                      type="text"
-                      value={symptoms}
-                      onChange={(e) => setSymptoms(e.target.value)}
-                      placeholder="e.g. concentric brown rings, yellow halos"
-                      className="w-full text-xs sm:text-sm p-3.5 border border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 bg-white text-slate-800 outline-none shadow-2xs font-medium placeholder:text-slate-400"
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#16a34a]">
+                        <PenLine size={16} strokeWidth={2} />
+                      </div>
+                      <input
+                        type="text"
+                        value={symptoms}
+                        onChange={(e) => setSymptoms(e.target.value)}
+                        placeholder="e.g. brown spots, yellow halos, leaf curling"
+                        className="w-full text-xs sm:text-sm pl-10 pr-4 py-3.5 border border-slate-200 rounded-xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 bg-white text-slate-800 outline-none shadow-2xs font-medium placeholder:text-slate-400 transition-all"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -370,7 +386,7 @@ export const DiseaseScanner = ({
                 type="button"
                 onClick={handleAnalyze}
                 disabled={isAnalyzing || flaskStatus === 'offline'}
-                className={`w-full py-3.5 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2 shadow-sm transition-all mt-6 cursor-pointer ${
+                className={`w-full py-3.5 px-6 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-all mt-6 cursor-pointer ${
                   isAnalyzing
                     ? 'bg-[#0e6234]/80 cursor-wait'
                     : flaskStatus === 'offline'
@@ -387,12 +403,79 @@ export const DiseaseScanner = ({
                   <>
                     <Search size={16} strokeWidth={2.2} />
                     <span>Analyze Leaf</span>
+                    <ArrowRight size={16} strokeWidth={2.2} className="ml-0.5" />
                   </>
                 )}
               </button>
             </div>
 
           </div>
+
+          {/* Bottom 4-Feature Cards Strip */}
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
+            
+            {/* Feature 1 */}
+            <div className="flex items-center gap-3 pt-3 sm:pt-0 sm:pl-3 first:pl-0 first:pt-0">
+              <div className="w-10 h-10 rounded-xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center shrink-0">
+                <Zap size={18} className="stroke-[2.2]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">
+                  Fast Detection
+                </h4>
+                <p className="text-[11px] sm:text-xs text-slate-500 truncate mt-0.5">
+                  Get results in seconds
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="flex items-center gap-3 pt-3 sm:pt-0 sm:pl-4">
+              <div className="w-10 h-10 rounded-xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center shrink-0">
+                <Target size={18} className="stroke-[2.2]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">
+                  High Accuracy
+                </h4>
+                <p className="text-[11px] sm:text-xs text-slate-500 truncate mt-0.5">
+                  Powered by EfficientNet-B3
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 3 */}
+            <div className="flex items-center gap-3 pt-3 sm:pt-0 sm:pl-4">
+              <div className="w-10 h-10 rounded-xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center shrink-0">
+                <Layers size={18} className="stroke-[2.2]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">
+                  38 Classes
+                </h4>
+                <p className="text-[11px] sm:text-xs text-slate-500 truncate mt-0.5">
+                  Multiple crop diseases
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 4 */}
+            <div className="flex items-center gap-3 pt-3 sm:pt-0 sm:pl-4">
+              <div className="w-10 h-10 rounded-xl bg-[#ebf7ee] text-[#16a34a] flex items-center justify-center shrink-0">
+                <ShieldCheck size={18} className="stroke-[2.2]" />
+              </div>
+              <div className="min-w-0">
+                <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">
+                  Reliable &amp; Scalable
+                </h4>
+                <p className="text-[11px] sm:text-xs text-slate-500 truncate mt-0.5">
+                  Built for real-field use
+                </p>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       )}
     </div>
