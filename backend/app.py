@@ -423,6 +423,22 @@ def predict():
         traceback.print_exc()
         return jsonify({"error": "Prediction failed", "details": str(e)}), 500
 
+@app.route("/", methods=["GET"])
+def index():
+    return jsonify({
+        "service": "AgroVision AI - Plant Disease Detection API",
+        "status": "online",
+        "model_loaded": (model is not None),
+        "version": "1.0.0",
+        "endpoints": {
+            "health": "/health",
+            "predict": "/predict",
+            "classes": "/classes",
+            "model_info": "/model-info",
+            "stats": "/stats"
+        }
+    })
+
 @app.route("/health", methods=["GET"])
 def health():
     device = "GPU" if len(tf.config.list_physical_devices('GPU')) > 0 else "CPU"
