@@ -146,8 +146,13 @@ export const DiseaseScanner = ({
       }
       window.scrollTo({ top: 120, behavior: 'smooth' });
     } catch (err) {
-      const detail = err.response?.data?.details || err.message;
-      setError(`Analysis failed: ${detail}`);
+      console.error('Diagnosis error:', err);
+      if (err.message && (err.message.includes('Network Error') || err.code === 'ERR_NETWORK' || err.message.includes('failed to fetch'))) {
+        setError(`Cannot reach backend API at "${diseaseService.getBaseUrl ? diseaseService.getBaseUrl() : 'configured URL'}". If you deployed on Render, make sure VITE_API_URL in Vercel is set to your actual live URL (e.g. https://agrovision-api-p3lg.onrender.com) and redeploy.`);
+      } else {
+        const detail = err.response?.data?.details || err.response?.data?.error || err.message;
+        setError(`Analysis failed: ${detail}`);
+      }
     } finally {
       clearInterval(messageTimer);
       setIsAnalyzing(false);
@@ -385,12 +390,12 @@ export const DiseaseScanner = ({
               <button
                 type="button"
                 onClick={handleAnalyze}
-                disabled={isAnalyzing || flaskStatus === 'offline'}
+                disabled={isAnalyzing || !selectedImage}
                 className={`w-full py-3.5 px-6 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-all mt-6 cursor-pointer ${
                   isAnalyzing
                     ? 'bg-[#0e6234]/80 cursor-wait'
-                    : flaskStatus === 'offline'
-                    ? 'bg-slate-400 cursor-not-allowed'
+                    : !selectedImage
+                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
                     : 'bg-[#0e6234] hover:bg-[#0a4d28] hover:shadow-md active:scale-[0.99]'
                 }`}
               >

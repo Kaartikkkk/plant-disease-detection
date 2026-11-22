@@ -19,6 +19,7 @@ export const getMediaUrl = (path) => {
 };
 
 export const diseaseService = {
+  getBaseUrl: () => API_BASE_URL,
   /**
    * Run crop disease scan
    * @param {File} imageFile - Crop leaf image file
